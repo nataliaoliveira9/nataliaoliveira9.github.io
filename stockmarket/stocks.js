@@ -5,6 +5,8 @@ function createRows() {
   let periods = document.getElementById("periods").value;
   let pricesLength = document.getElementById("stockPrices").rows.length;
 
+  // Creating metadata rows
+
   let chartSymbol = prices.insertRow();
   chartSymbol.insertCell().innerHTML = "Symbol:";
   chartSymbol.insertCell().setAttribute("id", "symbol");
@@ -15,6 +17,8 @@ function createRows() {
   chartExchange.insertCell().innerHTML = "Exchange:";
   chartExchange.insertCell().setAttribute("id", "exchange");
 
+  // creating header row
+
   let header = prices.insertRow();
   header.classList.add("tableHeader");
   header.insertCell().innerHTML = "Date";
@@ -22,6 +26,8 @@ function createRows() {
   header.insertCell().innerHTML = "High";
   header.insertCell().innerHTML = "Low";
   header.insertCell().innerHTML = "Close";
+
+  // Adding rows for data and adding classes to each columns
 
   for (let i = pricesLength; i < periods; i++) {
     let row = prices.insertRow();
@@ -39,6 +45,8 @@ function getData() {
   let url = `https://api.twelvedata.com/time_series?symbol=${ticker}&interval=${time}&apikey=7227d36e03f248d28a281745ced26940`;
   let periods = document.getElementById("periods").value;
 
+  // Fetching data from the API
+
   let stockData = fetch(url);
   stockData
     .then((res) => res.json())
@@ -46,6 +54,8 @@ function getData() {
       console.log(d);
       showData(d);
     });
+
+  // Putting the newly created cells into an array
 
   let timeRange = Array.apply(null, document.querySelectorAll(".data"));
   let open = Array.apply(null, document.querySelectorAll(".open"));
@@ -62,6 +72,8 @@ function getData() {
     document.getElementById("currency").innerText = currency;
     document.getElementById("exchange").innerText = exchange;
 
+    // Putting fetched data into the new cells
+
     for (i = 0; i < periods; i++) {
       timeRange[i].innerText = d.values[i].datetime;
       open[i].innerText = `$${Number(d.values[i].open).toFixed(2)}`;
@@ -69,6 +81,12 @@ function getData() {
       low[i].innerText = `$${Number(d.values[i].low).toFixed(2)}`;
       close[i].innerText = `$${Number(d.values[i].close).toFixed(2)}`;
     }
+
+    /*
+     ** In a typical stock chart, the oldest data should appear on the left and newest data should appear on the right.
+     ** To do this, we should create new arrays with the oldest data at the start of the array and the newest data
+     ** at the end. We will create empty arrays first and then use the unshift() method to reverse data order.
+     */
 
     let dataTime = [];
     let dataOpen = [];
@@ -83,6 +101,8 @@ function getData() {
       dataLow.unshift(d.values[i].low);
       dataClose.unshift(d.values[i].close);
     }
+
+    // Chart Settings
 
     const data = {
       labels: dataTime,
@@ -110,9 +130,13 @@ function getData() {
       },
     };
 
+    // Create a new chart
+
     let myChart = new Chart(document.getElementById("myChart"), config);
 
-    let clearBtn = document.querySelector("#clear");
+    // Clear button with remove all table rows and destroy the new chart
+
+    const clearBtn = document.querySelector("#clear");
     clearBtn.addEventListener("click", () => {
       myChart.destroy();
       document
@@ -127,7 +151,9 @@ function getData() {
   }
 }
 
-let submitBtn = document.querySelector("#submit");
+// Submit button to create table rows, fetch data and create the chart
+
+const submitBtn = document.querySelector("#submit");
 submitBtn.addEventListener("click", () => {
   document
     .getElementById("stockPrices")
@@ -143,4 +169,12 @@ submitBtn.addEventListener("click", () => {
   div.appendChild(canvas);
 
   getData();
+});
+
+// Back to previous page button
+
+const backBtn = document.getElementById("backBtn");
+backBtn.addEventListener("click", () => {
+  window.history.go(-1);
+  return false;
 });
