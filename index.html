@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>my little projects ✿</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pink-deep:    #c9548a;
+      --pink-mid:     #e8829f;
+      --pink-soft:    #f5b8cb;
+      --pink-pale:    #fde8ef;
+      --pink-blush:   #fff0f5;
+      --cream:        #fffaf8;
+      --text-dark:    #3a1c2e;
+      --text-mid:     #7a3f5c;
+      --text-light:   #b47090;
+      --angular:      #dd0031;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--cream);
+      background-image:
+        radial-gradient(ellipse 80% 60% at 20% -10%, #fad4e8 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 100% 30%, #fce4f1 0%, transparent 50%),
+        radial-gradient(ellipse 50% 40% at 50% 100%, #f8d0e4 0%, transparent 55%);
+      color: var(--text-dark);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      padding: 0 1.5rem 4rem;
+      overflow-x: hidden;
+    }
+
+    /* ── Floating petals ── */
+    .petal {
+      position: fixed;
+      pointer-events: none;
+      opacity: 0;
+      font-size: 1.4rem;
+      animation: fall linear infinite;
+      z-index: 0;
+    }
+    @keyframes fall {
+      0%   { transform: translateY(-60px) rotate(0deg);   opacity: 0; }
+      10%  { opacity: .55; }
+      90%  { opacity: .35; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ── Header ── */
+    header {
+      position: relative;
+      text-align: center;
+      padding: 4rem 1rem 2.5rem;
+      z-index: 1;
+    }
+
+    .avatar-ring {
+      width: 96px; height: 96px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink-soft), var(--pink-deep));
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.4rem;
+      box-shadow: 0 0 0 6px var(--pink-pale), 0 8px 30px #e8829f55;
+      font-size: 2.8rem;
+      animation: breathe 4s ease-in-out infinite;
+    }
+    @keyframes breathe {
+      0%, 100% { box-shadow: 0 0 0 6px var(--pink-pale), 0 8px 30px #e8829f55; }
+      50%       { box-shadow: 0 0 0 10px var(--pink-soft), 0 12px 40px #c9548a66; }
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      color: var(--pink-deep);
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+    h1 em { font-style: italic; color: var(--pink-mid); }
+
+    .tagline {
+      margin-top: .7rem;
+      color: var(--text-light);
+      font-size: .95rem;
+      font-weight: 300;
+      letter-spacing: .04em;
+    }
+
+    .divider {
+      display: flex; align-items: center; gap: 1rem;
+      max-width: 340px; margin: 2rem auto 0;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--pink-soft), transparent);
+    }
+    .divider span { color: var(--pink-mid); font-size: 1.2rem; }
+
+    /* ── Grid ── */
+    .grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.4rem;
+      max-width: 980px;
+      margin: 2.5rem auto 0;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: rgba(255,255,255,.72);
+      border: 1.5px solid var(--pink-soft);
+      border-radius: 20px;
+      padding: 1.6rem 1.7rem 1.5rem;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      animation: cardIn .5s ease both;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #fff5f8 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity .25s;
+    }
+    .card:hover::before { opacity: 1; }
+    .card:hover {
+      transform: translateY(-5px) scale(1.01);
+      box-shadow: 0 16px 40px #e8829f30, 0 4px 12px #c9548a18;
+      border-color: var(--pink-mid);
+    }
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--pink-pale), var(--pink-soft));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px #e8829f30;
+    }
+
+    .badge {
+      font-size: .65rem;
+      font-weight: 500;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      padding: .25rem .65rem;
+      border-radius: 99px;
+      background: var(--pink-pale);
+      color: var(--text-light);
+      border: 1px solid var(--pink-soft);
+    }
+    .badge.angular {
+      background: #fff0f0;
+      color: var(--angular);
+      border-color: #ffc0c8;
+    }
+
+    .card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--pink-deep);
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+    }
+    .card-name::after {
+      content: '→';
+      font-family: 'DM Sans', sans-serif;
+      font-size: .9rem;
+      color: var(--pink-mid);
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: opacity .2s, transform .2s;
+    }
+    .card:hover .card-name::after {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .card-desc {
+      font-size: .875rem;
+      color: var(--text-mid);
+      line-height: 1.55;
+      font-weight: 300;
+    }
+
+    /* ── Footer ── */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center;
+      margin-top: 3.5rem;
+      color: var(--text-light);
+      font-size: .8rem;
+      letter-spacing: .04em;
+    }
+    footer a { color: var(--pink-deep); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <!-- Floating petals -->
+  <script>
+    const petalEmojis = ['🌸','✿','🌷','💮','🪷'];
+    for (let i = 0; i < 14; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      p.textContent = petalEmojis[i % petalEmojis.length];
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.animationDuration = (10 + Math.random() * 14) + 's';
+      p.style.animationDelay   = (Math.random() * 12) + 's';
+      p.style.fontSize          = (.9 + Math.random() * .9) + 'rem';
+      document.body.appendChild(p);
+    }
+  </script>
+
+  <header>
+    <div class="avatar-ring">🌷</div>
+    <h1>my little <em>projects</em></h1>
+    <p class="tagline">a cozy collection of things i built with HTML, CSS &amp; JavaScript</p>
+    <div class="divider"><span>✿</span></div>
+  </header>
+
+  <main class="grid">
+
+    <a class="card" href="baseconverter" style="animation-delay:.05s">
+      <div class="card-top">
+        <div class="card-icon">🔢</div>
+        <span class="badge">JS</span>
+      </div>
+      <div class="card-name">baseconverter</div>
+      <p class="card-desc">Convert decimal numbers to hexadecimal, octal, binary, and more number bases in a snap.</p>
+    </a>
+
+    <a class="card" href="bmi" style="animation-delay:.1s">
+      <div class="card-top">
+        <div class="card-icon">⚖️</div>
+        <span class="badge">JS</span>
+      </div>
+      <div class="card-name">bmi calculator</div>
+      <p class="card-desc">Enter your height and weight to instantly find out your Body Mass Index and what it means.</p>
+    </a>
+
+    <a class="card" href="calc" style="animation-delay:.15s">
+      <div class="card-top">
+        <div class="card-icon">🧮</div>
+        <span class="badge">JS</span>
+      </div>
+      <div class="card-name">calculator</div>
+      <p class="card-desc">A clean, functional calculator for everyday arithmetic — additions, subtractions, and beyond.</p>
+    </a>
+
+    <a class="card" href="cep" style="animation-delay:.2s">
+      <div class="card-top">
+        <div class="card-icon">📮</div>
+        <span class="badge">JS</span>
+      </div>
+      <div class="card-name">cep lookup</div>
+      <p class="card-desc">Type any Brazilian postal code (CEP) to retrieve its full address details in real time.</p>
+    </a>
+
+    <a class="card" href="clock" style="animation-delay:.25s">
+      <div class="card-top">
+        <div class="card-icon">🕐</div>
+        <span class="badge">JS</span>
+      </div>
+      <div class="card-name">clock</div>
+      <p class="card-desc">A fully functioning analog &amp; digital JavaScript clock, ticking away in real time.</p>
+    </a>
+
+    <a class="card" href="colorpicker" style="animation-delay:.3s">
+      <div class="card-top">
+        <div class="card-icon">🎨</div>
+        <span class="badge">JS</span>
+      </div>
+      <div class="card-name">color picker</div>
+      <p class="card-desc">Pick any color from the palette and instantly get its HEX code and RGB values to copy.</p>
+    </a>
+
+    <a class="card" href="money" style="animation-delay:.35s">
+      <div class="card-top">
+        <div class="card-icon">💱</div>
+        <span class="badge">JS</span>
+      </div>
+      <div class="card-name">currency converter</div>
+      <p class="card-desc">Convert between world currencies with up-to-date exchange rates, quickly and easily.</p>
+    </a>
+
+    <a class="card" href="munichcandles" style="animation-delay:.4s">
+      <div class="card-top">
+        <div class="card-icon">🕯️</div>
+        <span class="badge angular">Angular</span>
+      </div>
+      <div class="card-name">munich candles</div>
+      <p class="card-desc">A charming dummy candle shop storefront built with Angular — browse, discover, and admire.</p>
+    </a>
+
+    <a class="card" href="pixelart" style="animation-delay:.45s">
+      <div class="card-top">
+        <div class="card-icon">🖼️</div>
+        <span class="badge">JS</span>
+      </div>
+      <div class="card-name">pixel art</div>
+      <p class="card-desc">A mini drawing canvas where you can create retro pixel art with a grid of colorable cells.</p>
+    </a>
+
+    <a class="card" href="stockmarket" style="animation-delay:.5s">
+      <div class="card-top">
+        <div class="card-icon">📈</div>
+        <span class="badge">JS</span>
+      </div>
+      <div class="card-name">stock market</div>
+      <p class="card-desc">Look up and track stock market prices and see how your favourite tickers are performing.</p>
+    </a>
+
+  </main>
+
+  <footer>
+    <p>made with 🌸 &amp; lots of coffee · <a href="https://github.com/nataliaoliveira9" target="_blank">github</a></p>
+  </footer>
+
+</body>
+</html>
